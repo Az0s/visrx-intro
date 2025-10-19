@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+VisRx portfolio site (Next.js App Router)
 
-## Getting Started
+Getting Started
 
-First, run the development server:
+1) Install and run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2) Language switch (EN/中文)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The site ships with a language toggle in the header. Text is left as-is by default. To fill real content:
 
-## Learn More
+- Page strings (titles, captions, labels)
+  - File: src/i18n/strings.ts
+  - Provide values under `en` and `zh` for:
+    - `tagline`
+    - `videoCaptions.medImport`
+    - `videoCaptions.arRecognition`
+    - `videoCaptions.arTalk`
+    - `videoCaptions.bindGuard`
+    - `videoCaptions.bindElderly`
 
-To learn more about Next.js, take a look at the following resources:
+- Introduction markdown
+  - Default: renders Visrx_Introduction.md (root).
+  - To localize, add any of these files (optional):
+    - Visrx_Introduction.en.md
+    - Visrx_Introduction.zh.md
+  - The toggle will load the matching file; if missing, it falls back to Visrx_Introduction.md.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3) Videos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Demo videos live in `public/videos` and are referenced by URL paths.
+- Replace files with your exports using the same names, or edit `src/components/HeroCarousel.tsx` to change paths.
 
-## Deploy on Vercel
+Design & Typography
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Light gradient background using brand colors (#E9EEED, #F08876, #FEB27F).
+- Fonts via next/font: Plus Jakarta Sans (English) and Noto Sans SC (Chinese).
+- Video frame uses inner padding and `object-contain` to avoid cropping.
