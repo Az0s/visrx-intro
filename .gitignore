@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local original media (not tracked); use scripts/transcode-videos.sh to generate deployable outputs
+assets/videos/
