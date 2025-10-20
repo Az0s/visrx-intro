@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   title: "VisRx — Portfolio",
   description:
     "VisRx: a minimal portfolio site showcasing AR-assisted medication guidance for elderly and guardians.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
