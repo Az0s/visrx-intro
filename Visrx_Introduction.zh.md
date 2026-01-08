@@ -35,6 +35,18 @@
 5. 概览
    - 跨两端的关键流程与界面一览。
 
+### 核心技术与实现细节
+
+VisRx 并不仅仅是一个简单的 GPT 套壳应用。在 2023 年初，多模态大模型（如 GPT-4V）尚未普及且 API 成本高昂、延迟极高。为了在移动端实现实时的“指哪问哪”体验，我设计了一套基于端云协同（Edge-Cloud Collaboration）的异构流水线架构。
+
+1. 端侧计算卸载与轻量化感知 (On-device Compute Offload) 为了解决视频流上传带来的高延迟与隐私问题，我们将视觉感知任务完全卸载至端侧（iPhone NPU/GPU）：
+   - 视觉与手势追踪：利用 CoreML 和 Vision Framework (VNDetectHumanHandPoseRequest) 在本地实时进行手势关节点提取与物体检测，而非上传视频帧。
+   - 3D 空间对齐：通过 ARKit 的 ARWorldTrackingConfiguration 构建世界坐标系，结合光线投射算法（Ray-casting / HitTest），在端侧毫秒级地解算“食指指尖”与“虚拟药品锚点（AnchorEntity）”的空间关系。
+2. 创新点：多模态语义序列化 (Multimodal Semantic Serialization) 这是本系统的核心创新。大语言模型无法直接理解 3D 坐标或视频流，我们设计了一种基于 XML 的多模态图结构（XML Prompt Engineering），将非结构化的多模态数据转化为结构化的语义图：
+   - 数据结构化：系统将 OCR 识别的药品信息、HealthKit 的用户健康记录、以及端侧解算出的“手势指向交互事件”，动态封装为 XML 节点（如 <druginfo>, <gesture type="pointing">, <userquery>）。
+   - 语义映射：通过这种序列化处理，我们将原本数兆字节的视频流请求，压缩为几百字节的结构化文本 Prompt。这不仅让当时的 LLM 能够理解“我指的这个药（This）”具体指代什么，还将网络传输带宽降低了三个数量级。
+3. 隐私优先的混合架构 得益于上述架构，敏感的视觉数据（如家庭环境视频流）从未离开用户设备。仅有经过脱敏和序列化后的文本特征（Features）被发送至云端推理。这种设计在保证了医疗场景隐私安全的同时，实现了在弱网环境下依然流畅的端到端（E2E）响应速度。
+
 ## 结语
 
 我主导并开发了 VisRx（药忆），该移动应用在 2023 年中国高校计算机大赛 —— 移动应用创新赛（浙江大学与 Apple 联合主办）全国总决赛中获得一等奖。

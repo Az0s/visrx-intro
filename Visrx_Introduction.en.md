@@ -35,6 +35,18 @@ Because there are two roles, the app shows different interfaces for each user:
 5. Summary
    - Key flows and UI summarized across both roles.
 
+### Core Technology and Implementation Details
+
+VisRx is not merely a simple GPT wrapper. In early 2023, multimodal LLMs (e.g., GPT‑4V) were not yet widespread and API costs were high with extreme latency. To deliver a real‑time “point‑and‑ask” experience on mobile, I designed a heterogeneous pipeline architecture based on edge‑cloud collaboration.
+
+1. On‑device compute offload and lightweight perception (On-device Compute Offload) To solve the high latency and privacy risks of uploading video streams, we moved visual perception fully to the device (iPhone NPU/GPU):
+   - Vision and gesture tracking: use CoreML and the Vision Framework (VNDetectHumanHandPoseRequest) for real‑time hand keypoint extraction and object detection locally, rather than uploading video frames.
+   - 3D spatial alignment: use ARKit’s ARWorldTrackingConfiguration to build a world coordinate system, combined with ray‑casting/HitTest, to resolve the spatial relationship between the “index fingertip” and the “virtual drug anchor (AnchorEntity)” in milliseconds on device.
+2. Innovation: Multimodal Semantic Serialization This is the system’s core innovation. LLMs cannot directly understand 3D coordinates or video streams, so we designed an XML‑based multimodal graph (XML prompt engineering) to transform unstructured multimodal data into a structured semantic graph:
+   - Data structuring: the system packages OCR drug information, HealthKit user records, and on‑device resolved “gesture pointing interaction events” into XML nodes (e.g., <druginfo>, <gesture type="pointing">, <userquery>).
+   - Semantic mapping: this serialization compresses requests from megabytes of video into a few hundred bytes of structured text prompts. It allows the LLM to understand what “this” refers to while reducing network bandwidth by three orders of magnitude.
+3. Privacy‑first hybrid architecture Thanks to the above, sensitive visual data (e.g., home environment video streams) never leaves the user’s device. Only desensitized, serialized text features are sent to the cloud for inference. This design preserves privacy in medical scenarios while maintaining smooth end‑to‑end response even on weak networks.
+
 ## Endnote
 
 I led and developed VisRx (YaoYi), a mobile application that won 1st Prize (National Finals) at the 2023 China Collegiate Computing Contest – Mobile Application Innovation, co‑hosted by Zhejiang University and Apple.
@@ -52,4 +64,3 @@ Thanks to my teammate @zhs852 for his effort and support — this wouldn’t hav
 - Background color: #E9EEED — calm, reliable, light blue/gray
 - Primary colors: #F08876 and #FEB27F — warm coral, friendly and approachable
 - Branding: VisRx icon animation video available as a 3024×1702 mp4
-
