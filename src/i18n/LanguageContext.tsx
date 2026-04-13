@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import type React from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export type Lang = "en" | "zh";
 
@@ -21,23 +22,37 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>("zh");
 
   useEffect(() => {
-    const saved = (typeof window !== "undefined" && (localStorage.getItem("visrx:lang") as Lang | null)) || null;
+    const saved =
+      (typeof window !== "undefined" &&
+        (localStorage.getItem("visrx:lang") as Lang | null)) ||
+      null;
     if (saved === "en" || saved === "zh") {
       setLang(saved);
       return;
     }
-    const nav = typeof navigator !== "undefined" ? navigator.language.toLowerCase() : "zh";
+    const nav =
+      typeof navigator !== "undefined"
+        ? navigator.language.toLowerCase()
+        : "zh";
     setLang(nav.startsWith("zh") ? "zh" : "en");
   }, []);
 
-  const value = useMemo<Ctx>(() => ({
-    lang,
-    setLang: (l: Lang) => {
-      setLang(l);
-      try { localStorage.setItem("visrx:lang", l); } catch {}
-    },
-  }), [lang]);
+  const value = useMemo<Ctx>(
+    () => ({
+      lang,
+      setLang: (l: Lang) => {
+        setLang(l);
+        try {
+          localStorage.setItem("visrx:lang", l);
+        } catch {}
+      },
+    }),
+    [lang],
+  );
 
-  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+    </LanguageContext.Provider>
+  );
 }
-

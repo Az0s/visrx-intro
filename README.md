@@ -13,24 +13,16 @@ Open http://localhost:3000 to view the site.
 
 2) Language switch (EN/中文)
 
-The site ships with a language toggle in the header. Text is left as-is by default. To fill real content:
+The site ships with a language toggle in the header. All landing-page copy is authored as static localized content in one place:
 
-- Page strings (titles, captions, labels)
-  - File: src/i18n/strings.ts
-  - Provide values under `en` and `zh` for:
-    - `tagline`
-    - `videoCaptions.medImport`
-    - `videoCaptions.arRecognition`
-    - `videoCaptions.arTalk`
-    - `videoCaptions.bindGuard`
-    - `videoCaptions.bindElderly`
-
-- Introduction markdown
-  - Default: renders Visrx_Introduction.md (root).
-  - To localize, add any of these files (optional):
-    - Visrx_Introduction.en.md
-    - Visrx_Introduction.zh.md
-  - The toggle will load the matching file; if missing, it falls back to Visrx_Introduction.md.
+- File: `src/i18n/strings.ts`
+- Update values under `en` and `zh` for:
+  - `tagline`
+  - `heroLead`
+  - `videoCaptions.*`
+  - `intro`
+  - `architecture`
+  - `ownership`
 
 3) Videos (optimized workflow)
 
@@ -53,8 +45,8 @@ What it does
 - Writes `-movflags +faststart` so playback begins quickly.
 
 How the site uses them
-- `src/components/HeroCarousel.tsx` and `VideoCarousel.tsx` prefer the AV1 source, then fallback to H.264.
-- Until you run the script, the carousel will still work with existing files via a fallback `src`.
+- `src/components/HeroCarousel.tsx` and `VideoCarousel.tsx` serve AV1 first and H.264 second for browser compatibility.
+- The carousel uses per-video aspect ratios so the portrait demos render cleanly without the extra black side borders that appeared in the older layout.
 
 Commit/deploy
 - Commit only the generated files in `public/videos/` (not the originals in `assets/videos/`).
@@ -64,7 +56,8 @@ Design & Typography
 
 - Light gradient background using brand colors (#E9EEED, #F08876, #FEB27F).
 - Fonts via next/font: Plus Jakarta Sans (English) and Noto Sans SC (Chinese).
-- Video frame uses inner padding and `object-contain` to avoid cropping.
+- Homepage copy is rendered from static typed content rather than markdown fetched through an API route.
+- Video stage uses a clean white shell and per-item aspect ratio instead of a fixed black container.
 
 Vercel notes (static video)
 - `next.config.ts` sets long-lived, immutable caching for files under `/videos/*`.
