@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans, Noto_Sans_SC } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Noto_Sans_SC,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 
@@ -23,9 +28,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VisRx — Portfolio",
+  title: "VisRx",
   description:
-    "VisRx: a minimal portfolio site showcasing AR-assisted medication guidance for elderly and guardians.",
+    "VisRx is an edge-cloud medication assistance system for seniors and family caregivers, centered on multimodal grounding and context-aware inference on mobile.",
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
