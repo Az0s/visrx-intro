@@ -10,6 +10,20 @@ export default function HeroCarousel() {
 
   const items = [
     {
+      id: "arTalk",
+      aspectRatio: "37 / 80",
+      sources: [
+        {
+          src: "/videos/AR_talk_llm.av1.mp4",
+          type: 'video/mp4; codecs="av01"',
+        },
+        {
+          src: "/videos/AR_talk_llm.h264.mp4",
+          type: 'video/mp4; codecs="avc1.640028"',
+        },
+      ],
+    },
+    {
       id: "medImport",
       aspectRatio: "37 / 80",
       sources: [
@@ -33,20 +47,6 @@ export default function HeroCarousel() {
         },
         {
           src: "/videos/AR_recognition.h264.mp4",
-          type: 'video/mp4; codecs="avc1.640028"',
-        },
-      ],
-    },
-    {
-      id: "arTalk",
-      aspectRatio: "37 / 80",
-      sources: [
-        {
-          src: "/videos/AR_talk_llm.av1.mp4",
-          type: 'video/mp4; codecs="av01"',
-        },
-        {
-          src: "/videos/AR_talk_llm.h264.mp4",
           type: 'video/mp4; codecs="avc1.640028"',
         },
       ],
@@ -77,11 +77,17 @@ export default function HeroCarousel() {
       ],
     },
   ].map((it) => ({
-    title: it.id,
+    title: t.videoTitles[it.id] || it.id,
     caption: t.videoCaptions[it.id] || "",
     aspectRatio: it.aspectRatio,
     sources: it.sources,
   }));
 
-  return <VideoCarousel items={items} />;
+  return (
+    <VideoCarousel
+      items={items}
+      stageLabel={t.heroEyebrow}
+      railLabel={t.demoRailLabel}
+    />
+  );
 }

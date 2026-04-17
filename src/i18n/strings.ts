@@ -14,8 +14,15 @@ type Highlight = {
 type LocalizedContent = {
   projectName: string;
   tagline: string;
+  heroEyebrow: string;
+  heroTitle: string;
   heroLead: string;
+  heroPoints: string[];
+  heroMeta: Highlight[];
+  heroJumpLabel: string;
+  demoRailLabel: string;
   scrollLabel: string;
+  videoTitles: Record<string, string>;
   videoCaptions: Record<string, string>;
   intro: {
     eyebrow: string;
@@ -41,9 +48,30 @@ export const strings: Record<Lang, LocalizedContent> = {
     projectName: "VisRx",
     tagline:
       "Edge-cloud medication assistance for seniors and family caregivers",
+    heroEyebrow: "Primary demo",
+    heroTitle: "Ask the medicine in front of you.",
     heroLead:
       "A multimodal grounding system that turns camera input, pointing intent, and medication text into model-ready context on mobile.",
+    heroPoints: [
+      "Point at the real pillbox instead of typing a vague question.",
+      "Ground object, gesture, and OCR on device before inference begins.",
+      "Send only the minimum semantic context upstream for response generation.",
+    ],
+    heroMeta: [
+      { label: "Mode", value: "Scene-aware medication Q&A" },
+      { label: "Pipeline", value: "On-device grounding + cloud reasoning" },
+      { label: "Built", value: "Early 2023, before cheap multimodal serving" },
+    ],
+    heroJumpLabel: "See the system design",
+    demoRailLabel: "Manually switch between product moments",
     scrollLabel: "Scroll",
+    videoTitles: {
+      medImport: "Import",
+      arRecognition: "Recognition",
+      arTalk: "Ask the medicine",
+      bindGuard: "Caregiver side",
+      bindElderly: "Senior side",
+    },
     videoCaptions: {
       medImport: "Scan a leaflet and structure medication data in one pass.",
       arRecognition:
@@ -113,9 +141,30 @@ export const strings: Record<Lang, LocalizedContent> = {
   zh: {
     projectName: "VisRx",
     tagline: "面向老人与家庭监护人的边缘-云协同用药辅助系统",
+    heroEyebrow: "核心演示",
+    heroTitle: "直接对着眼前这盒药提问。",
     heroLead:
       "在移动端有限算力与时延约束下，把相机输入、指向意图与药品文本压缩成模型能直接使用的结构化上下文。",
+    heroPoints: [
+      "用户直接指向真实药盒提问，不需要先抽象描述药名。",
+      "先在设备侧完成目标 grounding、手势理解与 OCR，再进入推理。",
+      "只把最小必要语义上下文送上云端，兼顾时延、成本与隐私。",
+    ],
+    heroMeta: [
+      { label: "模式", value: "面向实体药品的场景问答" },
+      { label: "链路", value: "端侧 grounding + 云侧 reasoning" },
+      { label: "时间", value: "2023 年初，多模态服务尚未成熟" },
+    ],
+    heroJumpLabel: "查看系统设计",
+    demoRailLabel: "手动切换不同产品片段",
     scrollLabel: "下滑",
+    videoTitles: {
+      medImport: "药品导入",
+      arRecognition: "药品识别",
+      arTalk: "对药提问",
+      bindGuard: "监护人端",
+      bindElderly: "老人端",
+    },
     videoCaptions: {
       medImport: "扫描说明书并结构化药品信息，完成快速导入。",
       arRecognition: "先在设备侧定位当前药盒，再进入用药指引。",
